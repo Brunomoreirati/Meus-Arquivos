@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Soletrando</title>
+
+    <style>
+
+        body {
+            
+            text-align:center;
+            text-shadow: 2px 2px 5px rgb(212, 43, 114);
+           
+            background-image: url('https://i.pinimg.com/originals/66/1a/87/661a8754175c2f0573da8aa2e30a9722.gif');
+            background-repeat: no-repeat;
+            background-attachment: fixed;  
+            background-size: cover;
+}
+
+        #resposta {
+            border-radius: 50px;
+            color:darkmagenta;
+        }
+
+        div {
+            
+            float:left;
+            margin: 80px;            
+        }
+        button {
+                  
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 18px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #13e47b;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+   p{
+       
+       font-size: 25px;
+       font-style: italic;
+       font-weight: 990;
+      
+
+   }
+      .hidden{
+          display: none;
+      }
+      input{
+          display: block;
+      }
+        
+
+
+    </style>
+</head>
+<body>
+    <h1>Seja Bem Vindo!!</h1>
+    <script>
+        function mostra(){
+            if(document.getElementById('na').style.display== 'none'){
+            document.getElementById('na').style.display= 'block'
+        }else{(document.getElementById('na').style.display='none')}
+    }
+    </script>
+    
+    <div id="painel-esquerdo">
+        <br><br><br><br>
+        <button onclick="reiniciarJogo();">Reiniciar</button>
+        <br>
+        <br>
+    </div>
+ 
+    <div id="painel">
+        <input id="resposta" type="text" placeholder="Digite a palavra aqui"/>
+        <br>
+        <br>
+        <br>
+        <img src="https://pbs.twimg.com/profile_images/537699494/BartSimpson.jpg" width="100" height="100"/>        
+    </div>
+
+    <input type="button" value="Como Jogar." onclick="mostra();"/>
+        <div id='na' class='hidden'>
+        <p>Botão funcionando!!<p>
+        </div>
+
+    <div id="painel-direito">
+        <p >Tempo:</p>
+        <p id="tempo">20</p>
+        <button onclick="confirmar();">Confirmar</button>
+        <br>
+        <br>
+        <button onclick="ouvirPalavra();">Ouvir palavra</button>
+        <p>Pontuação:</p>
+        <p id="pontuacao">0</p>
+    </div> 
+   
+
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=MfebT9FT"></script>
+    <script>
+        
+
+        //inicializando/preparando as variáveis do meu jogo
+        var palavras = ["telespectador", "âmago", "procrastinar", "paralelepípedo", "helicóptero",
+        "hipopótamo", "estante", "indescritível", "patinação", "variável"];
+
+        var pontuacao = 0;
+        var tempo = 20;
+        var palavraSorteada;  
+        var comecou = false;     
+
+
+        responsiveVoice.speak("Olá senhor ou senhora. Seja bem vindo ao Soletrando!! Um site interativo on você irá se divertir ao mesmo tempo em que aprende.", "Brazilian Portuguese Female");
+        function ouvirPalavra() {
+            
+
+            if(comecou==false) {
+               
+                comecou = true;
+
+                setInterval(function() {
+                tempo--;
+                document.getElementById("tempo").innerHTML=tempo;
+
+                    if(tempo==0) {
+                        alert("Você perdeu");               
+                    }
+                }, 1000); 
+            }
+                function reiniciarJogo () {
+                clearInterval(tempo);
+}
+           
+           
+
+            if(palavraSorteada) {
+                responsiveVoice.speak(palavraSorteada, "Brazilian Portuguese Female"); 
+            } else {
+                var numeroSorteado = Math.floor(Math.random() * palavras.length);
+                palavraSorteada = palavras[numeroSorteado];
+
+                palavras.splice(numeroSorteado, 1);
+               
+                responsiveVoice.speak(palavraSorteada, "Brazilian Portuguese Female");
+            }                        
+        } 
+
+        function confirmar() {
+            var respostaJogador = document.getElementById("resposta").value;
+
+            if(respostaJogador==palavraSorteada) {
+                //verificar se acertou
+                pontuacao = pontuacao + 10;
+                document.getElementById("pontuacao").innerHTML = pontuacao; 
+                responsiveVoice.speak("A palavra está correta", "Brazilian Portuguese Female");
+                document.getElementById("resposta").value="";
+                tempo+=5;
+                document.getElementById("tempo").innerHTML = tempo;
+
+                palavraSorteada="";
+
+                if(palavras.length==0) {
+                    //verificar se ganhou o jogo
+                    responsiveVoice.speak("Você ganhouuuu! Parabéns!", "Brazilian Portuguese Female");                    
+                }
+            } else {
+                alert("Game over!");
+            } 
+   
+        }
+         
+        function reiniciarJogo() {
+         
+
+   document.getElementById("resposta").value= "";
+   document.getElementById("tempo").innerHTML= tempo;
+   document.getElementById("pontuacao").innerHTML= pontuacao;
+            
+}
+       
+
+    </script>
+</body>
+</html>
